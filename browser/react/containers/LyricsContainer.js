@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 
 import Lyrics from '../components/Lyrics';
-import setLyrics from '../action-creators/lyrics'
+import {setLyrics, setLyricsAsync} from '../action-creators/lyrics'
 
 class LyricsContainer extends React.Component {
 
@@ -11,7 +11,7 @@ class LyricsContainer extends React.Component {
     super();
     this.state = store.getState();
     this.state.artistQuery = '';
-    this.state.songQuery = '';  
+    this.state.songQuery = '';
 
     this.setArtist = this.setArtist.bind(this);
     this.setSong = this.setSong.bind(this);
@@ -37,27 +37,21 @@ class LyricsContainer extends React.Component {
   }
 
   handleSubmit() {
-    axios.get(`/api/lyrics/${this.state.artistQuery}/${this.state.songQuery}`)
-    .then(res => res.data)
-    .then((lyrics) =>{
-      console.log(lyrics.lyric);
-      const action = setLyrics(lyrics.lyric);
-      console.log(action);
-      store.dispatch(action);
-    });
+  if (this.state.artistQuery && this.state.songQuery) {
+    store.dispatch(setLyricsAsync(this.state.artistQuery, this.state.songQuery));
   }
+}
 
   render() {
 
     return(
-      <Lyrics 
-        setArtist={this.setArtist}
+      <Lyrics
         setArtist={this.setArtist}
         artistQuery={this.state.artistQuery}
         setSong={this.setSong}
         songQuery={this.state.songQuery}
         handleSubmit={this.handleSubmit}
-        text={this.state.text}/>
+        text={this.state.lyrics.text}/>
     );
   }
 }

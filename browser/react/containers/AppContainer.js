@@ -10,6 +10,8 @@ import Album from '../components/Album';
 import Sidebar from '../components/Sidebar';
 import Player from '../components/Player';
 
+import {start, stop} from '../action-creators/player';
+
 import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
 
 export default class AppContainer extends Component {
@@ -57,28 +59,29 @@ export default class AppContainer extends Component {
 
   play () {
     AUDIO.play();
-    this.setState({ isPlaying: true });
+    console.log('play');
+    store.dispatch(start());
   }
 
   pause () {
     AUDIO.pause();
-    this.setState({ isPlaying: false });
+    store.dispatch(stop());
   }
 
-  load (currentSong, currentSongList) {
-    AUDIO.src = currentSong.audioUrl;
-    AUDIO.load();
-    this.setState({
-      currentSong: currentSong,
-      currentSongList: currentSongList
-    });
-  }
+  // load (currentSong, currentSongList) {
+  //   AUDIO.src = currentSong.audioUrl;
+  //   AUDIO.load();
+  //   this.setState({
+  //     currentSong: currentSong,
+  //     currentSongList: currentSongList
+  //   });
+  // }
 
-  startSong (song, list) {
-    this.pause();
-    this.load(song, list);
-    this.play();
-  }
+  // startSong (song, list) {
+  //   this.pause();
+  //   this.load(song, list);
+  //   this.play();
+  // }
 
   toggleOne (selectedSong, selectedSongList) {
     if (selectedSong.id !== this.state.currentSong.id)
