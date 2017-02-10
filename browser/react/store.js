@@ -1,8 +1,8 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import playerReducer from './reducer/player-reducer';
-import lyricsReducer from './reducer/lyrics-reducer';
+import playerReducer from './reducers/player-reducer';
+import lyricsReducer from './reducers/lyrics-reducer';
 
 const logger = createLogger();
 
